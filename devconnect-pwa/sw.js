@@ -40,7 +40,7 @@ self.addEventListener('activate', event => {
     return self.clients.claim();
 });
 
-// FASE FETCH (Escuchando e interceptando peticiones)
+// FASE FETCH: Estrategia Cache First
 self.addEventListener('fetch', event => {
     // Por ahora solo monitoreamos en consola
     console.log('SW pidiendo:', event.request.url);
@@ -49,15 +49,18 @@ self.addEventListener('fetch', event => {
     event.respondWith(
         caches.match(event.request)
             .then(cachedResponse => {
-                // Si está en caché, lo devolvemos
+                // 1. Si existe en la caché, se entrega directamente desde la caché
                 if (cachedResponse) {
+                    console.log('SW: Sirviendo desde Caché:', event.request.url);
                     return cachedResponse;
                 }
-                // Si no, lo buscamos en la red
+
+                // 2. Si no está en caché, se pide a la red
+                console.log('SW: Buscando en la red:', event.request.url);
                 return fetch(event.request);
             })
             .catch(err => {
-                console.error('SW: Error al realizar el fetch de:', event.request.url, err);
+                console.error('SW: Error en fetch:', err);
             })
     );
 });
