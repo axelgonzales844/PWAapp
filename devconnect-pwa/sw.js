@@ -11,7 +11,7 @@ const STATIC_ASSETS = [
     './js/app.js',
     './manifest.json',
     './images/templo(192x192).png',
-    //'https://cdn.tailwindcss.com',
+//    'https://cdn.tailwindcss.com',
     'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css'
 
 ];
