@@ -45,8 +45,24 @@ self.addEventListener('activate', event => {
     return self.clients.claim();
 });
 
-// FASE FETCH (Escuchando peticiones)
+// FASE FETCH (Escuchando e interceptando peticiones)
 self.addEventListener('fetch', event => {
     // Por ahora solo monitoreamos en consola
     console.log('SW pidiendo:', event.request.url);
+
+    // Estrategia: Cache First, fallback a Network
+    event.respondWith(
+        caches.match(event.request)
+            .then(cachedResponse => {
+                // Si está en caché, lo devolvemos
+                if (cachedResponse) {
+                    return cachedResponse;
+                }
+                // Si no, lo buscamos en la red
+                return fetch(event.request);
+            })
+            .catch(err => {
+                console.error('SW: Error al realizar el fetch de:', event.request.url, err);
+            })
+    );
 });

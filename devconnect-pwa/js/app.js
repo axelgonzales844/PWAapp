@@ -1,5 +1,4 @@
-// Este archivo será el cerebro de nuestra PWA más adelante.
-// Por ahora, solo comprobamos que el script está enlazado correctamente.
+// Este archivo es el cerebro de nuestra PWA
 console.log('App Shell de DevConnect inicializado correctamente.');
 
 // Evento de prueba para el botón de recargar
@@ -9,8 +8,8 @@ document.getElementById('btn-sync').addEventListener('click', () => {
 
 // 1. Verificamos si el navegador soporta Service Workers
 if ('serviceWorker' in navigator) {
-    // 2. Intentamos registrar el archivo sw.js que estará en la raíz del proyecto
-    navigator.serviceWorker.register('/sw.js')
+    // 2. Registramos el archivo sw.js
+    navigator.serviceWorker.register('./sw.js')
         .then(registro => {
             console.log('¡Éxito! Service Worker registrado correctamente.', registro);
         })
